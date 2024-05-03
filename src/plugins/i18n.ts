@@ -1,4 +1,6 @@
 import i18next from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+
 import { menu as enMenu } from "../locales/en/menu";
 import { menu as esMenu } from "../locales/es/menu";
 import { menu as itMenu } from "../locales/it/menu";
@@ -11,8 +13,11 @@ import { menuUiHandler as frMenuUiHandler } from "../locales/fr/menu-ui-handler.
 import { menuUiHandler as itMenuUiHandler } from "../locales/it/menu-ui-handler.js";
 import { menuUiHandler as deMenuUiHandler } from "../locales/de/menu-ui-handler.js";
 
-import { starterSelectUiHandler as frStarterSelectUiHandler } from "../locales/fr/starter-select-ui-handler";
-import { starterSelectUiHandler as enStarterSelectUiHandler } from "../locales/en/starter-select-ui-handler";
+import { battle as enBattle } from "../locales/en/battle";
+import { battle as esBattle } from "../locales/es/battle";
+import { battle as itBattle } from "../locales/it/battle";
+import { battle as frBattle } from "../locales/fr/battle";
+import { battle as deBattle } from "../locales/de/battle";
 
 import { move as enMove } from "../locales/en/move";
 import { move as esMove } from "../locales/es/move";
@@ -45,6 +50,11 @@ import { commandUiHandler as esCommandUiHandler } from "../locales/es/command-ui
 import { commandUiHandler as frCommandUiHandler } from "../locales/fr/command-ui-handler";
 import { commandUiHandler as deCommandUiHandler } from "../locales/de/command-ui-handler";
 
+import { fightUiHandler as enFightUiHandler } from "../locales/en/fight-ui-handler";
+import { fightUiHandler as esFightUiHandler } from "../locales/es/fight-ui-handler";
+import { fightUiHandler as frFightUiHandler } from "../locales/fr/fight-ui-handler";
+import { fightUiHandler as itFightUiHandler } from "../locales/it/fight-ui-handler";
+import { fightUiHandler as deFightUiHandler } from "../locales/de/fight-ui-handler";
 import { fightUiHandler as enFightUiHandler } from "../locales/en/fight-ui-handler";
 import { fightUiHandler as frFightUiHandler } from "../locales/fr/fight-ui-handler";
 
@@ -80,10 +90,8 @@ export interface Localizable {
   localize(): void;
 }
 
-const DEFAULT_LANGUAGE_OVERRIDE = "";
-
 export function initI18n(): void {
-  let lang = "en";
+  let lang = "";
 
   if (localStorage.getItem("prLang")) lang = localStorage.getItem("prLang");
 
@@ -93,6 +101,7 @@ export function initI18n(): void {
    * Q: How do I add a new language?
    * A: To add a new language, create a new folder in the locales directory with the language code.
    *    Each language folder should contain a file for each namespace (ex. menu.ts) with the translations.
+   *    Don't forget to declare new language in `supportedLngs` i18next initializer
    *
    * Q: How do I add a new namespace?
    * A: To add a new namespace, create a new file in each language folder with the translations.
@@ -102,9 +111,10 @@ export function initI18n(): void {
    * A: In src/system/settings.ts, add a new case to the Setting.Language switch statement.
    */
 
-  i18next.init({
-    lng: DEFAULT_LANGUAGE_OVERRIDE ? DEFAULT_LANGUAGE_OVERRIDE : lang,
+  i18next.use(LanguageDetector).init({
+    lng: lang,
     fallbackLng: "en",
+    supportedLngs: ["en", "es", "fr", "it", "de"],
     debug: true,
     interpolation: {
       escapeValue: false,
@@ -113,6 +123,7 @@ export function initI18n(): void {
       en: {
         menu: enMenu,
         menuUiHandler: enMenuUiHandler,
+        battle: enBattle,
         move: enMove,
         ability: enAbility,
         pokeball: enPokeball,
@@ -126,17 +137,20 @@ export function initI18n(): void {
       es: {
         menu: esMenu,
         menuUiHandler: esMenuUiHandler,
+        battle: esBattle,
         move: esMove,
         ability: esAbility,
         pokeball: esPokeball,
         pokemon: esPokemon,
         pokemonStat: esPokemonStat,
         commandUiHandler: esCommandUiHandler,
+        fightUiHandler: esFightUiHandler,
         tutorial: esTutorial,
       },
       fr: {
         menu: frMenu,
         menuUiHandler: frMenuUiHandler,
+        battle: frBattle,
         move: frMove,
         ability: frAbility,
         pokeball: frPokeball,
@@ -150,18 +164,22 @@ export function initI18n(): void {
       it: {
         menu: itMenu,
         menuUiHandler: itMenuUiHandler,
+        battle: itBattle,
         pokemonStat: itPokemonStat,
+        fightUiHandler: itFightUiHandler,
         tutorial: itTutorial,
       },
       de: {
         menu: deMenu,
         menuUiHandler: deMenuUiHandler,
+        battle: deBattle,
         move: deMove,
         ability: deAbility,
         pokeball: dePokeball,
         pokemon: dePokemon,
         pokemonStat: dePokemonStat,
         commandUiHandler: deCommandUiHandler,
+        fightUiHandler: deFightUiHandler,
         tutorial: deTutorial,
       },
     },
@@ -175,6 +193,7 @@ declare module "i18next" {
       menu: typeof enMenu;
       menuUiHandler: typeof enMenuUiHandler;
       move: typeof enMove;
+      battle: typeof enBattle;
       ability: typeof enAbility;
       pokeball: typeof enPokeball;
       pokemon: typeof enPokemon;

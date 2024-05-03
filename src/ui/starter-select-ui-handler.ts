@@ -1926,7 +1926,8 @@ export default class StarterSelectUiHandler extends MessageUiHandler {
         if (
           this.pokerusCursors.find(
             (cursor: integer, i: integer) =>
-              cursor === this.cursor && this.pokerusGens[i] === this.genCursor
+              cursor === this.cursor &&
+              this.pokerusGens[i] === this.getGenCursorWithScroll()
           )
         )
           handleTutorial(this.scene, Tutorial.Pokerus);
