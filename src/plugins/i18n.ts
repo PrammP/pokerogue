@@ -64,6 +64,9 @@ import { tutorial as frTutorial } from "../locales/fr/tutorial";
 import { tutorial as itTutorial } from "../locales/it/tutorial";
 import { tutorial as deTutorial } from "../locales/de/tutorial";
 
+import { starterSelectUiHandler as enStarterSelectUiHandler } from "../locales/en/starter-select-ui-handler";
+import { starterSelectUiHandler as frStarterSelectUiHandler } from "../locales/fr/starter-select-ui-handler";
+
 export interface SimpleTranslationEntries {
   [key: string]: string;
 }
